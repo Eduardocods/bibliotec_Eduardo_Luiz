@@ -6,6 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+
 
 import java.util.Optional;
 
@@ -32,12 +35,18 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public String salvar(@ModelAttribute Categoria categoria,
-                         RedirectAttributes redirectAttributes) {
+    public String salvar(
+            @Valid @ModelAttribute("categoria") Categoria categoria,
+            BindingResult resultado) {
+
+        if (resultado.hasErrors()) {
+            return "categorias/form";
+        }
+
         categoriaService.salvar(categoria);
-        redirectAttributes.addFlashAttribute("mensagem", "Categoria salva com sucesso!");
         return "redirect:/categorias";
     }
+
 
 
     @GetMapping("/{id}/editar")
