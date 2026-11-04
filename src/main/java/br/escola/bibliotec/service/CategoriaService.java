@@ -1,4 +1,3 @@
-
 package br.escola.bibliotec.service;
 
 import br.escola.bibliotec.model.Categoria;
@@ -6,6 +5,7 @@ import br.escola.bibliotec.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoriaService {
@@ -17,14 +17,18 @@ public class CategoriaService {
     }
 
     public List<Categoria> listarTodas() {
-        List<Categoria> categorias = categoriaRepository.findAll();
+        return categoriaRepository.findAllByOrderByNomeAsc();
+    }
 
-        System.out.println("TOTAL ENCONTRADO: " + categorias.size());
+    public void salvar(Categoria categoria) {
+        categoriaRepository.save(categoria);
+    }
 
-        for (Categoria categoria : categorias) {
-            System.out.println(categoria.getNome());
-        }
+    public Optional<Categoria> buscarPorId(Long id) {
+        return categoriaRepository.findById(id);
+    }
 
-        return categorias;
+    public void excluir(Long id) {
+        categoriaRepository.deleteById(id);
     }
 }
