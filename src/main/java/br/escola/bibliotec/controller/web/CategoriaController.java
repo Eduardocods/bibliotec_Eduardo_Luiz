@@ -1,3 +1,4 @@
+
 package br.escola.bibliotec.controller.web;
 
 import br.escola.bibliotec.model.Categoria;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
-
 
 import java.util.Optional;
 
@@ -35,36 +35,59 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public String salvar(
-            @Valid @ModelAttribute("categoria") Categoria categoria,
-            BindingResult resultado) {
+    public String salvar(@Valid @ModelAttribute("categoria") Categoria categoria,
+                         BindingResult resultado,
+                         RedirectAttributes redirectAttributes) {
+
+        if (categoriaService.nomeJaExiste(categoria)) {
+            resultado.rejectValue("nome", "nome.duplicado",
+                    "Já existe uma categoria com este nome");
+        }
 
         if (resultado.hasErrors()) {
             return "categorias/form";
         }
 
         categoriaService.salvar(categoria);
+        redirectAttributes.addFlashAttribute(
+                "mensagem", "Categoria salva com sucesso!"
+        );
+
         return "redirect:/categorias";
     }
-
-
 
     @GetMapping("/{id}/editar")
     public String editar(@PathVariable Long id, Model model) {
         Optional<Categoria> categoria = categoriaService.buscarPorId(id);
+
         if (categoria.isEmpty()) {
             return "redirect:/categorias";
         }
+
         model.addAttribute("categoria", categoria.get());
         return "categorias/form";
     }
 
     @PostMapping("/{id}/excluir")
     public String excluir(@PathVariable Long id,
-                          RedirectAttributes redirectAttributes){
-        categoriaService.excluir(id);
-        redirectAttributes.addFlashAttribute("mensagem", "Categoria excluída com sucesso!");
-        return  "redirect:/categorias";
-    }
+                          RedirectAttributes redirectAttributes) {
 
+        // Verifica se existem livros nesta categoria
+        if (categoriaService.possuiLivros(id)) {
+            redirectAttributes.addFlashAttribute(
+                    "erro",
+                    "Não é possível excluir: existem livros nesta categoria."
+            );
+
+            return "redirect:/categorias";
+        }
+
+        categoriaService.excluir(id);
+
+        redirectAttributes.addFlashAttribute(
+                "mensagem", "Categoria excluída com sucesso!"
+        );
+
+        return "redirect:/categorias";
+    }
 }

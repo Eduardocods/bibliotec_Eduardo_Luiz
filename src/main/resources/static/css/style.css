@@ -125,6 +125,7 @@ td.acoes .botao { margin-right: .3rem; }
     background: #dcebd2;
     border-left: 6px solid var(--verde-claro);
 }
+
 .erro {
     margin: .3rem 0 0;
     color: #b3402a;
@@ -134,4 +135,37 @@ td.acoes .botao { margin-right: .3rem; }
 .formulario input.campo-erro {
     border-color: #b3402a;
     background: #fdf1ef;
+}
+
+.formulario input[type=number],
+.formulario select {
+    width: 100%;
+    padding: .55rem;
+    font: inherit;
+    border: 2px solid var(--madeira);
+    background: #fff;
+}
+
+.formulario select.campo-erro {
+    border-color: #b3402a;
+    background: #fdf1ef;
+}
+.busca {
+    display: flex;
+    gap: .6rem;
+    width: min(920px, 92%);
+    margin: 0 auto 1rem;
+}
+.busca input[type=text] {
+    flex: 1;
+    padding: .55rem;
+    font: inherit;
+    border: 2px solid var(--madeira);
+    background: #fff;
+}
+.vazio {
+    width: min(920px, 92%);
+    margin: 0 auto 1rem;
+    font-style: italic;
+    color: var(--madeira);
 }
