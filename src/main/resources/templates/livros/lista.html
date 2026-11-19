@@ -1,13 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livros | BiblioTec</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+
+<head th:replace="~{fragments/layout :: cabeca('Livros')}"></head>
+
 <body>
+
+<nav th:replace="~{fragments/layout :: menu('livros')}"></nav>
 
 <h1>Livros da biblioteca</h1>
 
