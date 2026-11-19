@@ -175,3 +175,29 @@ td.acoes .botao { margin-right: .3rem; }
     background: #fdf1ef;
     border-left-color: #b3402a;
 }
+
+/* Menu de navegação */
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .4rem;
+    padding: .6rem 1rem;
+    background: var(--madeira);
+}
+
+.menu a {
+    padding: .35rem 1rem;
+    color: var(--papel);
+    text-decoration: none;
+    border: 2px solid transparent;
+}
+
+.menu a:hover {
+    border-color: var(--dourado);
+}
+
+.menu a.ativo {
+    background: var(--verde);
+    border-color: var(--dourado);
+}
